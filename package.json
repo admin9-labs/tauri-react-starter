@@ -21,10 +21,11 @@
     "format:check": "prettier . --check",
     "test": "vitest run",
     "test:watch": "vitest",
+    "e2e": "playwright test",
     "prepare": "husky",
     "check:toolchain": "node scripts/check-toolchain.mjs",
     "check:rust": "cargo fmt --manifest-path src-tauri/Cargo.toml -- --check && cargo check --locked --manifest-path src-tauri/Cargo.toml",
-    "check": "pnpm check:toolchain && pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm build && pnpm check:rust"
+    "check": "pnpm check:toolchain && pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm e2e && pnpm build && pnpm check:rust"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.12.1",

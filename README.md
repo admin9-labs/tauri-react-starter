@@ -1,6 +1,6 @@
 # Tauri React Starter
 
-Tauri 2 + React + TypeScript 的最小桌面启动基线，固定工具链与锁文件，包含原生窗口启动和窗口配置回归。
+在原生启动基线上加入 Radix/Tailwind UI、组合 patterns、明暗及系统主题、通知和组件展示页。主题运行时单测与组件交互 E2E 随功能接入。首次 E2E 前运行 `pnpm exec playwright install chromium`。
 
 ## 开发
 

@@ -4,6 +4,10 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { isTauri } from "@tauri-apps/api/core";
 
 import { App } from "@/app/App";
+import { ThemeProvider } from "@/app/theme";
+import { Toaster } from "@/components/ui/toaster";
+
+import "./index.css";
 
 const rootElement = document.getElementById("root");
 
@@ -28,7 +32,10 @@ function RootApp() {
 
   return (
     <React.StrictMode>
-      <App />
+      <ThemeProvider>
+        <App />
+        <Toaster />
+      </ThemeProvider>
     </React.StrictMode>
   );
 }
