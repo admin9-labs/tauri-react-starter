@@ -1,6 +1,6 @@
 # Tauri React Starter
 
-加入应用外壳、概览与组件导航、hash 路由回退、命令面板和主题设置弹窗。UI 和主题保持复用，导航与设置回归随应用集成。首次 E2E 前运行 `pnpm exec playwright install chromium`。
+加入 Tauri SQL 插件与 SQLite migrations、repository、mapper 和严格的浏览器 mock。数据读写、连接缓存/重试、SQL 契约及分层约束有对应单测；示例页面在下一步接入。首次 E2E 前运行 `pnpm exec playwright install chromium`。
 
 ## 开发
 

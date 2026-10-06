@@ -1,6 +1,6 @@
 import {
   ChevronRight,
-  Component,
+  Database,
   Gauge,
   Layers3,
   Palette,
@@ -34,6 +34,13 @@ const capabilities = [
     description: "Tauri window lifecycle, sidebar, toolbar, dialogs.",
     icon: Layers3,
     meta: "Tauri 2",
+  },
+  {
+    group: "Data",
+    title: "SQLite data",
+    description: "Migrations, repository layer, browser-safe test mock.",
+    icon: Database,
+    meta: "Repository",
   },
   {
     group: "Interface",
@@ -87,7 +94,7 @@ export function DashboardPage() {
                   </div>
                   <Button asChild className="w-full" size="toolbar">
                     <a href={routes.components}>
-                      <Component aria-hidden="true" />
+                      <Database aria-hidden="true" />
                       打开组件
                     </a>
                   </Button>

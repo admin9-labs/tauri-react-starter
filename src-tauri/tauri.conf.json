@@ -36,5 +36,9 @@
       "icons/icon.ico"
     ]
   },
-  "plugins": {}
+  "plugins": {
+    "sql": {
+      "preload": ["sqlite:desktop-starter.db"]
+    }
+  }
 }
