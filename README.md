@@ -9,9 +9,23 @@
 
 ## 界面预览
 
-![浅色概览](docs/images/dashboard-light.png)
+**概览与应用导航（浅色）**
 
-以上为浏览器预览，使用内存示例数据；原生窗口和 SQLite 验收范围见 [验证记录](docs/tech/starter-validation.md)。
+![浅色概览](docs/images/dashboard-light.jpg)
+
+**三栏记录工作区：筛选、列表与属性预览（深色）**
+
+![深色记录列表与属性预览](docs/images/records-dark.jpg)
+
+**记录详情与编辑表单（浅色）**
+
+![浅色记录详情编辑](docs/images/record-edit-light.jpg)
+
+**组件展示：按钮、标记与表单（深色）**
+
+![深色组件展示](docs/images/components-dark.jpg)
+
+以上为 1180×760 浏览器预览，使用内存示例数据；原生窗口和 SQLite 验收范围见 [验证记录](docs/tech/starter-validation.md)。
 
 ## 包含什么
 
