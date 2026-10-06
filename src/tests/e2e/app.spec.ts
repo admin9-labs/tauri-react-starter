@@ -2,6 +2,124 @@ import { expect, test } from "playwright/test";
 
 test.use({ colorScheme: "dark" });
 
+test("keeps navigation consistent across back and forward history", async ({
+  page,
+}) => {
+  await page.goto("/#/dashboard");
+  await page.getByRole("link", { name: "组件", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "组件", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "概览", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "概览", exact: true }),
+  ).toBeVisible();
+
+  await page.goBack();
+  await expect(
+    page.getByRole("heading", { name: "组件", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "组件", exact: true }),
+  ).toHaveClass(/native-sidebar-active/);
+
+  await page.goBack();
+  await expect(page.getByRole("heading", { name: "概览" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "概览" })).toHaveClass(
+    /native-sidebar-active/,
+  );
+
+  await page.goForward();
+  await expect(
+    page.getByRole("heading", { name: "组件", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "组件", exact: true }),
+  ).toHaveClass(/native-sidebar-active/);
+});
+
+test("updates the page and navigation through the command menu", async ({
+  page,
+}) => {
+  await page.goto("/#/dashboard");
+  await page.getByRole("button", { name: /命令面板/ }).click();
+  await page
+    .getByRole("dialog", { name: "Command Center" })
+    .getByText("打开组件", { exact: true })
+    .click();
+
+  await expect(
+    page.getByRole("heading", { name: "组件", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "组件", exact: true }),
+  ).toHaveClass(/native-sidebar-active/);
+  await expect(
+    page.getByRole("dialog", { name: "Command Center" }),
+  ).toBeHidden();
+
+  await page.getByRole("button", { name: /命令面板/ }).click();
+  await page
+    .getByRole("dialog", { name: "Command Center" })
+    .getByText("打开概览", { exact: true })
+    .click();
+  await expect(page.getByRole("heading", { name: "概览" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "概览" })).toHaveClass(
+    /native-sidebar-active/,
+  );
+});
+
+test("shows the reusable desktop starter dashboard", async ({ page }) => {
+  await page.goto("/#/dashboard");
+
+  await expect(page.getByRole("heading", { name: "概览" })).toBeVisible();
+  await expect(page.getByText("干净的本地桌面工具骨架")).toBeVisible();
+  const navigation = page.getByRole("navigation", { name: "主导航" });
+  await expect(navigation.getByRole("link", { name: "概览" })).toBeVisible();
+  await expect(navigation.getByRole("link", { name: "组件" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "设置" })).toBeVisible();
+  await expect(page.locator("[data-window-drag-strip]")).toHaveCount(0);
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        colorScheme: getComputedStyle(document.documentElement).colorScheme,
+        bodyBackground: getComputedStyle(document.body).backgroundColor,
+      })),
+    )
+    .toEqual(
+      expect.objectContaining({
+        colorScheme: "dark",
+      }),
+    );
+});
+
+test("opens settings and persists theme choices", async ({ page }) => {
+  await page.goto("/#/dashboard");
+  await page.getByRole("button", { name: "设置" }).click();
+
+  await expect(page.getByRole("dialog", { name: "设置" })).toBeVisible();
+  await expect(page.getByRole("radio", { name: "跟随系统" })).toBeChecked();
+
+  await page.getByText("浅色", { exact: true }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        storedTheme: window.localStorage.getItem("desktop-starter:theme"),
+        theme: document.documentElement.dataset.theme,
+        preference: document.documentElement.dataset.themePreference,
+      })),
+    )
+    .toEqual({
+      storedTheme: "light",
+      theme: "light",
+      preference: "light",
+    });
+
+  await page.reload();
+  await page.getByRole("button", { name: "设置" }).click();
+  await expect(page.getByRole("radio", { name: "浅色" })).toBeChecked();
+});
+
 test("shows the UI Lab components page and interactive primitives", async ({
   page,
 }) => {
@@ -11,6 +129,9 @@ test("shows the UI Lab components page and interactive primitives", async ({
     page.getByRole("heading", { name: "组件", exact: true }),
   ).toBeVisible();
   await expect(page.getByText("项目内组件样板")).toBeVisible();
+  await expect(page.getByRole("link", { name: "组件" })).toHaveClass(
+    /native-sidebar-active/,
+  );
 
   await expect(page.getByRole("heading", { name: "按钮与标记" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "表单" })).toBeVisible();
@@ -44,6 +165,33 @@ test("shows the UI Lab components page and interactive primitives", async ({
     .getByRole("button", { name: "确认", exact: true })
     .click();
   await expect(page.getByText("确认流程完成")).toBeVisible();
+});
+
+test("keeps button primitive chrome single-layer on hover", async ({
+  page,
+}) => {
+  await page.goto("/#/dashboard");
+
+  const outlineButton = page.getByRole("link", { name: "查看组件示例" });
+  const toolbarButton = page
+    .locator("header")
+    .getByRole("link", { name: "查看组件" });
+
+  for (const button of [outlineButton, toolbarButton]) {
+    await expect(button).toHaveAttribute("data-slot", "button");
+    await expect(button).toHaveAttribute("data-variant", /outline|toolbar/);
+    await expect(button).toHaveCSS("appearance", "none");
+    await expect(button).toHaveCSS("background-clip", "border-box");
+    await expect(button).toHaveCSS("box-sizing", "border-box");
+  }
+
+  const restBox = await outlineButton.boundingBox();
+  await outlineButton.hover();
+  const hoverBox = await outlineButton.boundingBox();
+
+  expect(hoverBox?.width).toBeCloseTo(restBox?.width ?? 0, 1);
+  expect(hoverBox?.height).toBeCloseTo(restBox?.height ?? 0, 1);
+  await expect(outlineButton).toHaveCSS("box-shadow", /rgba\(0, 0, 0, 0\)/);
 });
 
 test("keeps primary button chrome free of visible border", async ({ page }) => {

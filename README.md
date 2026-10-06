@@ -1,6 +1,6 @@
 # Tauri React Starter
 
-在原生启动基线上加入 Radix/Tailwind UI、组合 patterns、明暗及系统主题、通知和组件展示页。主题运行时单测与组件交互 E2E 随功能接入。首次 E2E 前运行 `pnpm exec playwright install chromium`。
+加入应用外壳、概览与组件导航、hash 路由回退、命令面板和主题设置弹窗。UI 和主题保持复用，导航与设置回归随应用集成。首次 E2E 前运行 `pnpm exec playwright install chromium`。
 
 ## 开发
 

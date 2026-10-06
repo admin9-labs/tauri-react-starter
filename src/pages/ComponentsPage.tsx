@@ -192,7 +192,8 @@ export function ComponentsPage() {
                   项目内组件样板
                 </Heading>
                 <MutedText className="mt-3 max-w-2xl">
-                  在主题 token 下观察高频控件、弹层、 表单状态与数据布局。
+                  在真实 AppShell、主题 token 和路由中观察高频控件、弹层、
+                  表单状态与数据布局。
                 </MutedText>
               </div>
               <div className="ui-surface-split-muted border-t border-separator p-5 lg:border-l lg:border-t-0">
