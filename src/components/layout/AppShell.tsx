@@ -1,5 +1,6 @@
 import {
   Command as CommandIcon,
+  Database,
   Component,
   LayoutDashboard,
   PanelsTopLeft,
@@ -34,6 +35,8 @@ export function AppShell({ activeHash, children }: AppShellProps) {
       : activeHash;
   const visibleRoute = getRouteFromHash(visibleActiveHash);
   const isDashboardActive = visibleRoute === "dashboard";
+  const isRecordsActive =
+    visibleRoute === "records" || visibleRoute === "record-detail";
   const isComponentsActive = visibleRoute === "components";
 
   const closeSettingsDialog = () => {
@@ -95,6 +98,15 @@ export function AppShell({ activeHash, children }: AppShellProps) {
                 label="概览"
                 icon={LayoutDashboard}
                 active={isDashboardActive}
+                onNavigate={(href) => {
+                  setPendingActiveHash({ href, fromHash: activeHash });
+                }}
+              />
+              <SidebarNavItem
+                href={routes.records}
+                label="记录"
+                icon={Database}
+                active={isRecordsActive}
                 onNavigate={(href) => {
                   setPendingActiveHash({ href, fromHash: activeHash });
                 }}

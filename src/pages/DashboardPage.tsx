@@ -64,7 +64,7 @@ export function DashboardPage() {
       title="概览"
       actions={
         <Button asChild variant="toolbar" size="toolbar">
-          <a href={routes.components}>查看组件</a>
+          <a href={routes.records}>查看记录</a>
         </Button>
       }
     >
@@ -93,9 +93,9 @@ export function DashboardPage() {
                     <Text variant="caption">面向开发者工具的原生骨架。</Text>
                   </div>
                   <Button asChild className="w-full" size="toolbar">
-                    <a href={routes.components}>
+                    <a href={routes.records}>
                       <Database aria-hidden="true" />
-                      打开组件
+                      打开记录
                     </a>
                   </Button>
                 </div>
@@ -138,7 +138,7 @@ export function DashboardPage() {
                 </div>
               </div>
               <Button asChild variant="outline" size="toolbar">
-                <a href={routes.components}>查看组件示例</a>
+                <a href={routes.records}>查看示例数据</a>
               </Button>
             </SurfaceContent>
           </Surface>

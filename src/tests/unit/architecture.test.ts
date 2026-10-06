@@ -62,11 +62,11 @@ export async function probe() {
 
 it.each([
   [
-    "src/pages/ComponentsPage.tsx",
+    "src/pages/RecordsPage.tsx",
     "export { getDatabase } from '@/data/connection';",
   ],
   [
-    "src/pages/ComponentsPage.tsx",
+    "src/pages/RecordsPage.tsx",
     "export { getDatabase } from '../data/connection';",
   ],
   [
@@ -79,12 +79,12 @@ it.each([
   ],
   ["src/data/connection.ts", "export { useState } from 'react';"],
   [
-    "src/pages/ComponentsPage.tsx",
+    "src/pages/RecordsPage.tsx",
     "export { isTauri } from '@tauri-apps/api/core';",
   ],
-  ["src/pages/ComponentsPage.tsx", "export { vi } from 'vitest';"],
+  ["src/pages/RecordsPage.tsx", "export { vi } from 'vitest';"],
   [
-    "src/pages/ComponentsPage.tsx",
+    "src/pages/RecordsPage.tsx",
     "export { renderWithProviders } from '@/tests/render';",
   ],
   [
@@ -92,7 +92,7 @@ it.each([
     "export { resetDatabaseConnectionForTests } from '../connection';",
   ],
   [
-    "src/pages/ComponentsPage.tsx",
+    "src/pages/RecordsPage.tsx",
     "export const deferredImport = import('@/data/connection');",
   ],
 ])("rejects forbidden imports from %s: %s", async (file, code) => {
@@ -112,7 +112,7 @@ it.each([
 
 it.each([
   [
-    "src/pages/ComponentsPage.tsx",
+    "src/pages/RecordsPage.tsx",
     "export { ExampleRecordRepository } from '@/data/repositories';",
   ],
   [

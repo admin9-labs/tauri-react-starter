@@ -16,6 +16,8 @@ function renderShell(activeHash: string = routes.dashboard) {
 describe("AppShell native window layout", () => {
   it.each([
     [routes.dashboard, "概览"],
+    [routes.records, "记录"],
+    [routes.record("example"), "记录"],
     [routes.components, "组件"],
     ["", "概览"],
     ["#", "概览"],
@@ -25,7 +27,7 @@ describe("AppShell native window layout", () => {
   ])("matches the active navigation for %s", (hash, label) => {
     renderShell(hash);
 
-    for (const name of ["概览", "组件"]) {
+    for (const name of ["概览", "记录", "组件"]) {
       const link = screen.getByRole("link", { name });
       if (name === label) {
         expect(link).toHaveClass("native-sidebar-active");
@@ -50,7 +52,7 @@ describe("AppShell native window layout", () => {
     ).toBeInTheDocument();
   });
 
-  it("keeps dashboard and components navigation active states", () => {
+  it("keeps dashboard and records navigation active states", () => {
     const { unmount } = renderShell();
 
     expect(screen.getByRole("navigation", { name: "主导航" })).toBeVisible();
@@ -63,9 +65,17 @@ describe("AppShell native window layout", () => {
     expect(screen.getByRole("link", { name: "概览" })).toHaveClass(
       "ui-control-interactive",
     );
+    expect(screen.getByRole("link", { name: "记录" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "组件" })).toBeInTheDocument();
 
     unmount();
+
+    const recordsRender = renderShell(routes.records);
+    expect(screen.getByRole("link", { name: "记录" })).toHaveClass(
+      "native-sidebar-active",
+    );
+
+    recordsRender.unmount();
 
     renderShell(routes.components);
     expect(screen.getByRole("link", { name: "组件" })).toHaveClass(
@@ -75,7 +85,7 @@ describe("AppShell native window layout", () => {
 
   it("updates sidebar active state before the hash change is confirmed", () => {
     renderShell(routes.dashboard);
-    const link = screen.getByRole("link", { name: "组件" });
+    const link = screen.getByRole("link", { name: "记录" });
     link.addEventListener(
       "click",
       (event) => {
@@ -85,7 +95,7 @@ describe("AppShell native window layout", () => {
     );
     fireEvent.click(link);
 
-    expect(screen.getByRole("link", { name: "组件" })).toHaveClass(
+    expect(screen.getByRole("link", { name: "记录" })).toHaveClass(
       "native-sidebar-active",
     );
     expect(screen.getByRole("link", { name: "概览" })).not.toHaveClass(
@@ -95,7 +105,7 @@ describe("AppShell native window layout", () => {
 
   it("clears confirmed navigation before returning to the previous hash", () => {
     const { rerender } = renderShell(routes.dashboard);
-    const link = screen.getByRole("link", { name: "组件" });
+    const link = screen.getByRole("link", { name: "记录" });
     link.addEventListener(
       "click",
       (event) => {
@@ -106,7 +116,7 @@ describe("AppShell native window layout", () => {
     fireEvent.click(link);
 
     rerender(
-      <AppShell activeHash={routes.components}>
+      <AppShell activeHash={routes.records}>
         <div>页面内容</div>
       </AppShell>,
     );
@@ -120,7 +130,7 @@ describe("AppShell native window layout", () => {
     expect(screen.getByRole("link", { name: "概览" })).toHaveClass(
       "native-sidebar-active",
     );
-    expect(screen.getByRole("link", { name: "组件" })).not.toHaveClass(
+    expect(screen.getByRole("link", { name: "记录" })).not.toHaveClass(
       "native-sidebar-active",
     );
   });

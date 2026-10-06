@@ -1,6 +1,6 @@
 import { Command } from "cmdk";
 import {
-  Component,
+  Database,
   LayoutDashboard,
   Search,
   Settings2,
@@ -85,15 +85,15 @@ export function CommandMenu({
               </Text>
             </Command.Item>
             <Command.Item
-              value="组件 components ui"
+              value="记录 records sqlite"
               onSelect={() => {
-                navigate(routes.components);
+                navigate(routes.records);
               }}
               className="ui-command-item ui-type-caption flex min-h-10 cursor-pointer items-center gap-3 px-3 text-muted-foreground aria-selected:bg-surface-active aria-selected:text-foreground"
             >
-              <Component className="size-4" aria-hidden="true" />
+              <Database className="size-4" aria-hidden="true" />
               <Text as="span" variant="caption">
-                打开组件
+                打开记录
               </Text>
             </Command.Item>
           </Command.Group>

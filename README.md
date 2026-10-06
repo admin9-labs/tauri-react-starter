@@ -1,6 +1,6 @@
 # Tauri React Starter
 
-加入 Tauri SQL 插件与 SQLite migrations、repository、mapper 和严格的浏览器 mock。数据读写、连接缓存/重试、SQL 契约及分层约束有对应单测；示例页面在下一步接入。首次 E2E 前运行 `pnpm exec playwright install chromium`。
+接入示例记录列表、筛选、详情、连续编辑和删除流程；异步结果归属于发起记录，读取与保存错误可恢复。浏览器刷新重置 mock 数据，原生使用 SQLite。完整单测与 E2E 随功能集成。首次 E2E 前运行 `pnpm exec playwright install chromium`。
 
 ## 开发
 
