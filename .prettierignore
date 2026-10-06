@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+src-tauri/target
+src-tauri/gen
+playwright-report
+test-results
+*.tsbuildinfo
+public/fonts/OFL.txt
+src-tauri/icons/LICENSE_MIT.txt
